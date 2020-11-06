@@ -17,10 +17,8 @@ from plugins.tok_rec import is_token
 from time import time
 import subprocess
 # from plugins.dlopenload import DLOPENLOAD
-from plugins.dpbox import DPBOX
 from plugins.wdl import wget_dl
 import re
-from mega import Mega
 # import importlib.util
 gauth = GoogleAuth()
 
@@ -143,33 +141,6 @@ def UPLOAD(update, context):
             sent_message.edit_text("Openload is currently not supported")
 
             # Here is DropBox Stuffs
-        elif 'dropbox.com' in url:
-
-            url = DPBOX(url)
-            filename = url.split("/")[-1]
-            print("Dropbox link Downloading Started : {}".format(
-                url.split("/")[-1]))
-            sent_message.edit_text(TEXT.DP_DOWNLOAD)
-            # filename = wget.download(url)
-            filename = wget_dl(str(url))
-            print("Downloading Complete : {}".format(filename))
-            sent_message.edit_text(TEXT.DOWN_COMPLETE)
-            DownloadStatus = True
-           # Here IS Mega Links stuffs
-        elif 'mega.nz' in url:
-
-            try:
-                print("Downlaoding Started")
-                sent_message.edit_text(TEXT.DOWN_MEGA)
-                m = Mega.from_credentials(TEXT.MEGA_EMAIL, TEXT.MEGA_PASSWORD)
-                filename = m.download_from_url(url)
-                print("Downloading Complete Mega :", filename)
-                sent_message.edit_text(TEXT.DOWN_COMPLETE)
-
-                DownloadStatus = True
-            except Exception as e:
-                print("Mega Downloding Error :", e)
-                sent_message.edit_text("Mega Downloading Error !!")
 
         else:
             try:
